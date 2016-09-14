@@ -1,0 +1,144 @@
+.Card,
+.CardAdder
+{
+  width : 2in;
+  height : 3.25in;
+  border : 1px dotted #888888;
+  border-radius : 0.125in;
+  padding : calc(1in/8);
+  position: relative;
+  display : flex;
+  flex-direction: column;
+  justify-content : space-between;
+}
+
+.CardDisplay,
+.CardAdder
+{
+  float : left;
+  display : flex;
+  margin : 0.1in;
+}
+
+.CardAdder
+{
+  justify-content : space-around;
+  text-align: center;
+}
+
+.CardHeader
+{
+  font-size :  calc(1in/6);
+  z-index : 10;
+  padding-bottom : calc(1in/32);
+}
+
+.CardTitle
+{
+  background : rgba(255,255,255,0.5);
+  text-shadow: 0px 0px 1px #ffffff;
+}
+
+.CardID
+{
+  float : right;
+  padding-left : 0 0.0625in;
+  color : #888888;
+}
+
+.CardImage
+{
+  overflow : hidden;
+  position: relative;
+  display : flex;
+  flex-grow: 2;
+  justify-content: center;
+  align-items: center;
+}
+
+.CardSetInfo
+{
+  height : calc(1in/6);
+  padding-bottom: calc(1in/32);
+  align-items: flex-end;
+  font-size : calc(1in/8);
+  display : flex;
+  justify-content: space-between;
+}
+
+.CardText
+{
+  background : beige;
+  padding : calc(1in/16);
+}
+
+.CardPrerequisites
+{
+  font-size : calc(1in/8);
+  color : #888888;
+  padding-top : calc(1in/32);
+  text-align : center;
+}
+
+.CardAuthorization
+{
+  align-items: flex-end;
+  font-size : calc(1in/8);
+  height : calc(1in/6);
+  display : flex;
+  justify-content: space-between;
+  color : #888888;
+  border-bottom: 1px solid #888888;
+  font-style: italic;
+}
+
+.CardDate
+{
+  color : black;
+  font-weight: bold;
+}
+
+.CardForm
+{
+  display : flex;
+  flex-direction : column;
+  justify-content: space-between;
+}
+
+.CardForm input,
+.CardForm textarea
+{
+  padding : 0.05in;
+  flex-grow : 1;
+  display : block;
+  border : none;
+  width : 2.37in;
+  font-size : 0.15in;
+  border-bottom : 1px dotted #888888;
+  font-family: monospace;
+  outline : none;
+}
+
+
+.CardForm input:focus,
+.CardForm textarea:focus
+{
+  background: #EEEEEE;
+}
+
+
+.CardForm textarea
+{
+  flex-grow : 100;
+  resize : none;
+}
+
+.CardForm .CardFormTitle
+{
+  font-size : 0.2in;
+}
+
+.CardForm input:last-child
+{
+  border-bottom : none;
+}
