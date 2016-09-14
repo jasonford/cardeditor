@@ -1,7 +1,8 @@
 import firebase from 'firebase';
+import credentials from './credentials';
 // Initialize Firebase
 firebase.initializeApp({
-  apiKey: "AIzaSyBLOxk9Bx2dp9QNZmim10WCtnH-SajeQVw",
+  apiKey: credentials.firebaseApiKey,
   authDomain: "fir-test-51aab.firebaseapp.com",
   databaseURL: "https://fir-test-51aab.firebaseio.com",
   storageBucket: "fir-test-51aab.appspot.com",
