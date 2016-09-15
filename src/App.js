@@ -6,6 +6,7 @@ import $ from 'jquery';
 import {sanitize} from 'dompurify';
 import katex from 'katex';
 import "!style!css!katex/dist/katex.min.css";
+import "./katex.css";
 
 const db = firebase.database();
 
@@ -51,16 +52,27 @@ class Card extends Component {
     return (event) => { 
       const value = $(event.target).val();
       let update = {};
-      update[field] = value;
+
+      //  apply transform functions to content of field
+      update[field] = replaceFunction(value, 'upload', () => {
+        return '' + Date.now();
+      });
+
+      if (update[field] !== value) {
+        //  TODO: keep cursor location
+        alert('start upload!!!')
+      }
+
       db.ref('cards/'+this[".key"]).update(update);
     };
   }
   safeMarkup (field) {
     let markup = this.props[field];
+
     //  render katex fields
     markup = replaceFunction(markup, 'katex', function (input) {
       return katex.renderToString(input, {
-        //displayMode : true,
+        displayMode : true,
         throwOnError : false
       });
     });
@@ -121,17 +133,37 @@ class Card extends Component {
 }
 
 class CardForm extends Component {
+  constructor () {
+    super();
+    this.state = {};
+  }
   remove () {
     let that = this;
-    return () => {
-      setTimeout(function () {
-        if (confirm("are you sure you want to remove this card?")) {
+    return function () {
+      if (that.state.tryingToRemove) {
+        setTimeout(() => {
           db.ref('cards/'+that.props[".key"]).remove();
-        }
-      });
+        });
+      }
+      that.setState({tryingToRemove:!that.state.tryingToRemove});
+    }
+  }
+  cancelRemove () {
+    let that = this;
+    return () => {
+      that.setState({tryingToRemove:false});
     }
   }
   render () {
+    let removeButtons = <button onClick={this.remove()}>remove</button>
+    if (this.state.tryingToRemove) {
+      removeButtons = (
+        <div>
+          <button onClick={this.cancelRemove()}>cancel</button>
+          <button onClick={this.remove()}>sure you want to remove this card?</button>
+        </div>
+      );
+    }
     return (<div className="CardForm">
       <input
         className="CardFormTitle"
@@ -163,7 +195,7 @@ class CardForm extends Component {
         value={this.props.prerequsites}
         onChange={this.props.update("prerequsites")}/>
       <div className="CardFormOptions">
-        <button onClick={this.remove()}>remove</button>
+        {removeButtons}
       </div>
     </div>);
   }
@@ -186,7 +218,7 @@ const App = React.createClass({
         <div
           onClick={this.onAddCard}
           className="CardAdder">
-          Add Card
+          &#43;
         </div>
       </div>
     );

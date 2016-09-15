@@ -7,10 +7,12 @@
   },
   "dependencies": {
     "dompurify": "^0.8.3",
+    "firebase": "^3.3.2",
     "jquery": "^3.1.0",
     "katex": "^0.6.0",
     "react": "^15.3.1",
-    "react-dom": "^15.3.1"
+    "react-dom": "^15.3.1",
+    "reactfire": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

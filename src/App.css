@@ -3,7 +3,7 @@
 {
   width : 2in;
   height : 3.25in;
-  border : 1px dotted #888888;
+  box-shadow : 0.005in 0.005in 0.03in #888888;
   border-radius : 0.125in;
   padding : calc(1in/8);
   position: relative;
@@ -24,6 +24,9 @@
 {
   justify-content : space-around;
   text-align: center;
+  color : #EEEEEE;
+  font-size : 2in;
+  vertical-align: -0.5in;
 }
 
 .CardHeader
@@ -70,13 +73,13 @@
 {
   background : beige;
   padding : calc(1in/16);
+  font-size : calc(1in/7);
 }
 
 .CardPrerequisites
 {
   font-size : calc(1in/8);
   color : #888888;
-  padding-top : calc(1in/32);
   text-align : center;
 }
 
@@ -109,10 +112,11 @@
 .CardForm textarea
 {
   padding : 0.05in;
+  padding-left : 0.1in;
   flex-grow : 1;
   display : block;
   border : none;
-  width : 2.37in;
+  width : 2.3in;
   font-size : 0.15in;
   border-bottom : 1px dotted #888888;
   font-family: monospace;
