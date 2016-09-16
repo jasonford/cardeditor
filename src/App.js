@@ -9,6 +9,18 @@ import "!style!css!katex/dist/katex.min.css";
 import "./katex.css";
 
 const db = firebase.database();
+const auth = firebase.auth();
+const storage = firebase.storage();
+const uploadsPrefix = '/uploads';
+
+function triggerUpload(callback) {
+  let input = document.createElement('input');
+  input.type = "file";
+  input.addEventListener('change', function (event) {
+    callback(input.files[0]);
+  });
+  setTimeout(()=>{$(input).click();});
+}
 
 //  based on "label(...content...)" parse out "...content..." and replace label() form with
 //  the result of the function given
@@ -52,17 +64,26 @@ class Card extends Component {
     return (event) => { 
       const value = $(event.target).val();
       let update = {};
+      let url = uploadsPrefix + '/' + auth.currentUser.uid + '/' + Date.now();
+      let ref = storage.ref(url);
+      let that = this;
 
-      //  apply transform functions to content of field
-      update[field] = replaceFunction(value, 'upload', () => {
-        return '' + Date.now();
-      });
-
+      //  TODO: show upload progress and allow multiple uploads...
+      update[field] = replaceFunction(value, 'upload', () => {return 'UPLOADING';});
+      //  trigger upload and create an update
       if (update[field] !== value) {
-        //  TODO: keep cursor location
-        alert('start upload!!!')
+        triggerUpload((file)=> {
+          let metadata = {'contentType': file.type};
+          ref.put(file, metadata).then(function () {
+            //  TODO: make short link to file if possible
+            ref.getDownloadURL().then((downloadURL) => {
+              update[field] = update[field].replace('UPLOADING', downloadURL);
+              //  put in eventual value
+              db.ref('cards/'+that[".key"]).update(update);
+            });
+          });
+        });
       }
-
       db.ref('cards/'+this[".key"]).update(update);
     };
   }
