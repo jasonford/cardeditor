@@ -5,8 +5,9 @@ import './App.css';
 import $ from 'jquery';
 import {sanitize} from 'dompurify';
 import katex from 'katex';
-import "!style!css!katex/dist/katex.min.css";
+import "katex/dist/katex.min.css";
 import "./katex.css";
+import compare from "./compare.js";
 
 const db = firebase.database();
 const auth = firebase.auth();
@@ -232,7 +233,12 @@ const App = React.createClass({
     this.firebaseRefs.cards.push({title:""});
   },
   render () {
-    var cards = this.state.cards.map((e, i)=>{return <Card {...e} key={e['.key']}/>});
+    let cardData = this.state.cards.sort(function (a, b) {
+      if (!a.id) return 1;
+      else if (!b.id) return -1;
+      else return compare.versions(a.id, b.id);
+    });
+    let cards = cardData.map((e, i)=>{return <Card {...e} key={e['.key']}/>});
     return (
       <div className="App">
         {cards}
