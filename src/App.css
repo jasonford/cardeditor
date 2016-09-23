@@ -1,3 +1,15 @@
+.DeckTitle
+{
+  text-align : center;
+  font-size : 0.5in;
+  margin : 0.25in 0;
+}
+
+.DeckToolbar
+{
+  text-align : center;
+}
+
 .Card,
 .CardAdder
 {
