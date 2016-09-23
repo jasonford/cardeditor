@@ -1,3 +1,8 @@
+body
+{
+  margin : 0;
+}
+
 .DeckTitle
 {
   text-align : center;
@@ -5,8 +10,20 @@
   margin : 0.25in 0;
 }
 
+select.DeckSelector,
+.NewDeckNameInput
+{
+  border: none;
+  border-radius: 0;
+  font-size: 0.25in;
+  height : 0.5in;
+  flex-grow: 1;
+  outline : none;
+}
+
 .DeckToolbar
 {
+  display: flex;
   text-align : center;
 }
 

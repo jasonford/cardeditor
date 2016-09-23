@@ -19,15 +19,31 @@ const App = React.createClass({
   },
   viewDeck(e) {
     var val = $(e.target).val();
-    this.setState({deckName : val});
-    //  change back to default
-    $(e.target).val('view another deck');
+    if (val === '/createNewDeck/') {
+      this.setState({creatingDeck : true});
+    }
+    else {
+      this.setState({deckName : val});
+      $(e.target).val(val);
+    }
+  },
+  createDeck(e) {
+    if (e.key === 'Enter') {
+      var val = $(e.target).val();
+      if (val) {
+        this.setState({deckName : val});
+      }
+      this.setState({creatingDeck : false});
+    }
   },
   render () {
     let decks = [];
     if (this.state && this.state.decks) {
       // TODO: remove ".key" field from decks object
       decks = Object.keys(this.state.decks);
+      if (decks.indexOf(this.state.deckName) == -1) {
+        decks.push(this.state.deckName);
+      }
       decks.splice(decks.indexOf('.key'), 1);
       decks = decks.map((e, i)=>{
         let props = {value:e, key:e};
@@ -35,19 +51,25 @@ const App = React.createClass({
       });
     }
     let deck = <Deck deckName={this.state.deckName} key={this.state.deckName}/>;
+    let deckSelector = 
+        <select
+          className="DeckSelector"
+          onChange={this.viewDeck}
+          value={this.state.deckName}>
+          {decks}
+          <option value="/createNewDeck/">Create a New Deck</option>
+        </select>;
+    if (this.state && this.state.creatingDeck) {
+      deckSelector =
+          <input className="NewDeckNameInput"
+                 onKeyPress={this.createDeck}
+                 placeholder="new deck name"
+                 autoFocus />
+    }
     return (
       <div className="App">
-        <h1 className="DeckTitle">
-          {this.state.deckName}
-        </h1>
         <div className="DeckToolbar">
-          <select
-            className="DeckSelector"
-            onChange={this.viewDeck}
-            defaultValue="view another deck">
-            <option value="view another deck">view another deck</option>
-            {decks}
-          </select>
+          {deckSelector}
         </div>
         {deck}
       </div>
